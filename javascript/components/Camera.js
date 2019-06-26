@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {NativeModules, requireNativeComponent} from 'react-native';
+import { NativeModules, requireNativeComponent } from 'react-native';
 
 import {toJSONString, viewPropTypes, existenceChange} from '../utils';
 import * as geoUtils from '../utils/geoUtils';
@@ -80,6 +80,8 @@ class Camera extends React.Component {
     minZoomLevel: PropTypes.number,
     maxZoomLevel: PropTypes.number,
 
+    showUserLocation: PropTypes.bool,
+
     // user tracking
     followUserLocation: PropTypes.bool,
 
@@ -125,12 +127,19 @@ class Camera extends React.Component {
       return;
     }
 
+    if (currentCamera.showUserLocation && !nextCamera.showUserLocation) {
+      this.refs.camera.setNativeProps({ showUserLocation: false })
+    }
+
+    if (!currentCamera.showUserLocation && nextCamera.showUserLocation) {
+      this.refs.camera.setNativeProps({ showUserLocation: true })
+    }
+
     if (currentCamera.followUserLocation && !nextCamera.followUserLocation) {
-      this.refs.camera.setNativeProps({followUserLocation: false});
-      return;
+      this.refs.camera.setNativeProps({ followUserLocation: false });
     }
     if (!currentCamera.followUserLocation && nextCamera.followUserLocation) {
-      this.refs.camera.setNativeProps({followUserLocation: true});
+      this.refs.camera.setNativeProps({ followUserLocation: true });
     }
 
     if (nextCamera.followUserLocation) {
@@ -140,7 +149,6 @@ class Camera extends React.Component {
         followHeading: nextCamera.followHeading || nextCamera.heading,
         followZoomLevel: nextCamera.followZoomLevel || nextCamera.zoomLevel,
       });
-      return;
     }
 
     const cameraConfig = {
@@ -168,6 +176,7 @@ class Camera extends React.Component {
     const n = nextCamera;
 
     const hasDefaultPropsChanged =
+      c.showUserLocation !== n.showUserLocation ||
       c.heading !== n.heading ||
       this._hasCenterCoordinateChanged(c, n) ||
       this._hasBoundsChanged(c, n) ||
@@ -386,7 +395,7 @@ class Camera extends React.Component {
       cameraConfig = this._createStopConfig(config);
     }
 
-    this.refs.camera.setNativeProps({stop: cameraConfig});
+    this.refs.camera.setNativeProps({ stop: cameraConfig });
   }
 
   _createDefaultCamera() {
@@ -511,6 +520,7 @@ class Camera extends React.Component {
     return (
       <RCTMGLCamera
         ref="camera"
+        showUserLocation={this.props.showUserLocation}
         followUserLocation={this.props.followUserLocation}
         followUserMode={this.props.followUserMode}
         followUserPitch={this.props.followUserPitch}

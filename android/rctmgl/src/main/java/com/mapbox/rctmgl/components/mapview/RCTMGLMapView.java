@@ -151,9 +151,6 @@ public class RCTMGLMapView extends MapView implements OnMapReadyCallback, Mapbox
         addOnDidFailLoadingMapListener(this);
         addOnDidFinishLoadingMapListener(this);
         addOnStyleImageMissingListener(this);
-
-        addOnWillStartRenderingFrameListener(this);
-        addOnDidFinishRenderingFrameListener(this);
         addOnWillStartRenderingMapListener(this);
         addOnDidFinishRenderingMapListener(this);
         addOnDidFinishLoadingStyleListener(this);
@@ -630,20 +627,6 @@ public class RCTMGLMapView extends MapView implements OnMapReadyCallback, Mapbox
     }
 
     @Override
-    public void onWillStartRenderingFrame() {
-        handleMapChangedEvent(EventTypes.WILL_START_RENDERING_FRAME);
-    }
-
-    @Override
-    public void onDidFinishRenderingFrame(boolean fully) {
-        if (fully) {
-            handleMapChangedEvent(EventTypes.DID_FINISH_RENDERING_FRAME_FULLY);
-        } else {
-            handleMapChangedEvent(EventTypes.DID_FINISH_RENDERING_FRAME);
-        }
-    }
-
-    @Override
     public void onWillStartRenderingMap() {
         handleMapChangedEvent(EventTypes.WILL_START_RENDERING_MAP);
     }
@@ -665,6 +648,7 @@ public class RCTMGLMapView extends MapView implements OnMapReadyCallback, Mapbox
 
     @Override
     public void onDidFinishLoadingStyle() {
+
         handleMapChangedEvent(EventTypes.DID_FINISH_LOADING_STYLE);
     }
 
