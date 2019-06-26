@@ -351,6 +351,24 @@ public class RCTMGLCamera extends AbstractMapFeature {
             }, 200);
         }
 
+        mLocationComponent.setMaxAnimationFps(16);
+        getMapboxMap().addOnCameraIdleListener(new MapboxMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                double zoom = RCTMGLCamera.this.getMapboxMap().getCameraPosition().zoom;
+                int maxAnimationFPS;
+                if (zoom < 10) {
+                    maxAnimationFPS = 1;
+                } else if (zoom < 13) {
+                    maxAnimationFPS = 3;
+                } else if (zoom < 17) {
+                    maxAnimationFPS = 8;
+                } else {
+                    maxAnimationFPS = 16;
+                }
+                mLocationComponent.setMaxAnimationFps(maxAnimationFPS);
+            }
+        });
     }
 
     private void updateLocationLayer(@NonNull Style style) {
@@ -490,6 +508,11 @@ public class RCTMGLCamera extends AbstractMapFeature {
         }
     }
 
+    public void setShowUserLocation(boolean value) {
+        mShowUserLocation = value;
+        updateShowUserLocation();
+    }
+
 
     public void setFollowUserLocation(boolean value) {
         mFollowUserLocation = value;
@@ -499,6 +522,14 @@ public class RCTMGLCamera extends AbstractMapFeature {
     public void setFollowUserMode(String mode) {
         mFollowUserMode = mode;
         updatedFollowUserMode();
+    }
+
+    private void updateShowUserLocation() {
+        if (mShowUserLocation) {
+            enableLocation();
+        } else {
+            
+        }
     }
 
     private void updatedFollowUserMode() {
