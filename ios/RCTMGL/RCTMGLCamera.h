@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSNumber *animationDuration;
 @property (nonatomic, copy) NSString *animationMode;
 
+@property (nonatomic, assign) BOOL showUserLocation;
 @property (nonatomic, assign) BOOL followUserLocation;
 @property (nonatomic, copy) NSString *followUserMode;
 @property (nonatomic, copy) NSNumber *followZoomLevel;
