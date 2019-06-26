@@ -73,8 +73,7 @@ public class RCTMGLMapView extends MapView implements
         OnMapReadyCallback, MapboxMap.OnMapClickListener, MapboxMap.OnMapLongClickListener,
         MapView.OnCameraIsChangingListener,
         MapView.OnCameraDidChangeListener, MapView.OnDidFailLoadingMapListener,
-        MapView.OnDidFinishLoadingMapListener, MapView.OnWillStartRenderingFrameListener,
-        MapView.OnDidFinishRenderingFrameListener, MapView.OnWillStartRenderingMapListener,
+        MapView.OnDidFinishLoadingMapListener, MapView.OnWillStartRenderingMapListener,
         MapView.OnDidFinishRenderingMapListener, MapView.OnDidFinishLoadingStyleListener,
         MapboxMap.OnMarkerClickListener, MapView.OnStyleImageMissingListener {
     public static final String LOG_TAG = RCTMGLMapView.class.getSimpleName();
@@ -143,9 +142,6 @@ public class RCTMGLMapView extends MapView implements
         addOnDidFailLoadingMapListener(this);
         addOnDidFinishLoadingMapListener(this);
         addOnStyleImageMissingListener(this);
-
-        addOnWillStartRenderingFrameListener(this);
-        addOnDidFinishRenderingFrameListener(this);
         addOnWillStartRenderingMapListener(this);
         addOnDidFinishRenderingMapListener(this);
         addOnDidFinishLoadingStyleListener(this);
@@ -611,20 +607,6 @@ public class RCTMGLMapView extends MapView implements
     }
 
     @Override
-    public void onWillStartRenderingFrame() {
-        handleMapChangedEvent(EventTypes.WILL_START_RENDERING_FRAME);
-    }
-
-    @Override
-    public void onDidFinishRenderingFrame(boolean fully) {
-        if (fully) {
-            handleMapChangedEvent(EventTypes.DID_FINISH_RENDERING_FRAME_FULLY);
-        } else {
-            handleMapChangedEvent(EventTypes.DID_FINISH_RENDERING_FRAME);
-        }
-    }
-
-    @Override
     public void onWillStartRenderingMap() {
         handleMapChangedEvent(EventTypes.WILL_START_RENDERING_MAP);
     }
@@ -646,6 +628,7 @@ public class RCTMGLMapView extends MapView implements
 
     @Override
     public void onDidFinishLoadingStyle() {
+
         handleMapChangedEvent(EventTypes.DID_FINISH_LOADING_STYLE);
     }
 
