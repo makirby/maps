@@ -37,6 +37,18 @@ public class RCTMGLStyleValue {
         mType = config.getString("styletype");
         mPayload = config.getMap("stylevalue");
 
+        Dynamic dynamic = mPayload.getDynamic("value");
+        if (dynamic.getType().equals(ReadableType.Array)) {
+            ReadableArray array = dynamic.asArray();
+            if (array.size() > 0 && mPayload.getString("type").equals("array")) {
+                ReadableMap map = array.getMap(0);
+                if (map != null && map.getString("type").equals("string")) {
+                    isExpression = true;
+                    mExpression = ExpressionParser.fromTyped(mPayload);
+                }
+            }
+        }
+
         if ("image".equals(mType)) {
             imageScale = 1.0;
             if ("hashmap".equals(mPayload.getString("type"))) {
@@ -55,18 +67,6 @@ public class RCTMGLStyleValue {
             }
             isAddImage = imageURI != null;
             return;
-        }
-
-        Dynamic dynamic = mPayload.getDynamic("value");
-        if (dynamic.getType().equals(ReadableType.Array)) {
-            ReadableArray array = dynamic.asArray();
-            if (array.size() > 0 && mPayload.getString("type").equals("array")) {
-                ReadableMap map = array.getMap(0);
-                if (map != null && map.getString("type").equals("string")) {
-                    isExpression = true;
-                    mExpression = ExpressionParser.fromTyped(mPayload);
-                }
-            }
         }
     }
 
