@@ -396,6 +396,9 @@ public class RCTMGLCamera extends AbstractMapFeature {
                     .build();
             mLocationComponent.activateLocationComponent(locationComponentActivationOptions);
             mLocationComponent.setLocationEngine(mLocationManager.getEngine());
+            if (mShowUserLocation) {
+                mLocationComponent.setRenderMode(RenderMode.COMPASS);
+            }
         }
         int userLayerMode = UserTrackingMode.getMapLayerMode(mUserLocation.getTrackingMode(), mShowUserLocation);
         mLocationComponent.setLocationComponentEnabled(mFollowUserLocation || mShowUserLocation);
