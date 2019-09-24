@@ -95,6 +95,9 @@ class Camera extends React.Component {
       sw: PropTypes.arrayOf(PropTypes.number).isRequired,
     }),
 
+
+    // user tracking
+    showUserLocation: PropTypes.bool,
     /**
      * Should the map orientation follow the user's.
      */
@@ -145,6 +148,14 @@ class Camera extends React.Component {
       return;
     }
 
+    if (currentCamera.showUserLocation && !nextCamera.showUserLocation) {
+      this.refs.camera.setNativeProps({showUserLocation: false})
+    }
+
+    if (!currentCamera.showUserLocation && nextCamera.showUserLocation) {
+      this.refs.camera.setNativeProps({showUserLocation: true})
+    }
+
     if (currentCamera.followUserLocation && !nextCamera.followUserLocation) {
       this.refs.camera.setNativeProps({followUserLocation: false});
       return;
@@ -182,12 +193,14 @@ class Camera extends React.Component {
 
     this._setCamera(cameraConfig);
   }
+  
 
   _hasCameraChanged(currentCamera, nextCamera) {
     const c = currentCamera;
     const n = nextCamera;
 
     const hasDefaultPropsChanged =
+      c.showUserLocation !== n.showUserLocation ||
       c.heading !== n.heading ||
       this._hasCenterCoordinateChanged(c, n) ||
       this._hasBoundsChanged(c, n) ||
@@ -539,6 +552,7 @@ class Camera extends React.Component {
     return (
       <RCTMGLCamera
         ref="camera"
+        showUserLocation={this.props.showUserLocation}
         followUserLocation={this.props.followUserLocation}
         followUserMode={this.props.followUserMode}
         followUserPitch={this.props.followUserPitch}

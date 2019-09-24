@@ -29,7 +29,7 @@ import java.util.Locale;
 
 @SuppressWarnings({"MissingPermission"})
 public class LocationManager implements LocationEngineCallback<LocationEngineResult> {
-    static final long DEFAULT_FASTEST_INTERVAL_MILLIS = 1000;
+    static final long DEFAULT_FASTEST_INTERVAL_MILLIS = 5 * 60 * 1000;
     static final long DEFAULT_INTERVAL_MILLIS = 1000;
 
     public static final String LOG_TAG = LocationManager.class.getSimpleName();
