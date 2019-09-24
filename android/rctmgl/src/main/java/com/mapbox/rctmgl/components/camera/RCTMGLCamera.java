@@ -493,6 +493,11 @@ public class RCTMGLCamera extends AbstractMapFeature {
         }
     }
 
+    public void setShowUserLocation(boolean value) {
+        mShowUserLocation = value;
+        updateShowUserLocation();
+    }
+
 
     public void setFollowUserLocation(boolean value) {
         mFollowUserLocation = value;
@@ -511,6 +516,14 @@ public class RCTMGLCamera extends AbstractMapFeature {
             setUserTrackingMode(UserTrackingMode.NONE);
         }
     }
+
+    private void updateShowUserLocation() {
+        if (mShowUserLocation) {
+            enableLocation();
+        } else {
+
+        }
+     }
 
     MapboxMap getMapboxMap() {
         if (mMapView == null) {

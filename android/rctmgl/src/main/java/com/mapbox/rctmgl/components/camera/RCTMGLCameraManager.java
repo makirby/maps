@@ -61,6 +61,11 @@ public class RCTMGLCameraManager extends AbstractEventEmitter<RCTMGLCamera> {
         camera.setZoomLevel(zoomLevel);
     }
 
+    @ReactProp(name="showUserLocation")
+     public void setShowUserLocation(RCTMGLCamera camera, boolean value) {
+        camera.setShowUserLocation(value);
+    }
+
     @ReactProp(name="followUserLocation")
     public void setFollowUserLocation(RCTMGLCamera camera, boolean value) {
         camera.setFollowUserLocation(value);
