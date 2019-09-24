@@ -77,6 +77,17 @@
     [self _updateCamera];
 }
 
+- (void)setShowUserLocation:(BOOL)showUserLocation
+{   
+    if (_showUserLocation != showUserLocation) {
+        if (_map != nil) {
+            _map.showsUserLocation = showUserLocation;
+            _map.showsHeading = showUserLocation;
+        }
+        _showUserLocation = showUserLocation;
+    }
+}
+
 - (void)setFollowUserLocation:(BOOL)followUserLocation
 {
     _followUserLocation = followUserLocation;
