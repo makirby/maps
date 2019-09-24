@@ -338,7 +338,6 @@ public class RCTMGLCamera extends AbstractMapFeature {
         updateLocationLayer(style);
 
         Location lastKnownLocation = mLocationManager.getLastKnownLocation();
-        mLocationManager.addLocationListener(mLocationChangeListener);
 
         if (lastKnownLocation != null) {
             mLocationChangeListener.onLocationChange(lastKnownLocation);
